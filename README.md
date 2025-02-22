@@ -70,10 +70,8 @@ CREATE EXTENSION postgis_topology;
 ```
 
 ## マイグレーションの実行
-src/config/data-source.tsの設定を変更し、プロジェクトの起動でテーブルが自動生成される。
-```bash
-npm run dev
-```
+prisuma genrate 使用
+
 ## DBデータの追加
 src/db/dataScript.zshを使用
 - 対象データによってコメントアウトの設定をお願いします
@@ -86,18 +84,7 @@ npm run dev
 
 ## ディレクトリ構成
 ```
-/backend
-├── src/
-│   ├── config/         # データベース接続などの設定ファイル
-│   ├── controllers/    # リクエストハンドリングとルーティング
-│   ├── models/
-│   │   ├── dto/       # データ転送オブジェクト
-│   │   └── entity/    # データベースエンティティ
-│   ├── services/      # ビジネスロジック
-│   └── utils/         # ユーティリティ関数
-├── .env               # 環境変数設定
-├── .env.sample       # 環境変数のサンプル
-└── README.md         # プロジェクトドキュメント
+
 ```
 
 ## 主な機能
