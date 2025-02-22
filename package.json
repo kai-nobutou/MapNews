@@ -1,0 +1,49 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node -r dotenv/config src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@nestjs/common": "^11.0.10",
+    "@prisma/client": "^6.4.1",
+    "@types/geojson": "^7946.0.16",
+    "axios": "^1.7.9",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "envalid": "^8.0.0",
+    "express": "^4.21.2",
+    "geojson": "^0.5.0",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0",
+    "prisma": "^6.4.1",
+    "routing-controllers": "^0.10.0",
+    "routing-controllers-openapi": "^4.1.0",
+    "swagger-ui-express": "^5.0.1",
+    "typedi": "^0.10.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.13.4",
+    "@types/swagger-ui-express": "^4.1.7",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "overrides": {
+    "cookie": "^0.7.0"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  }
+}
