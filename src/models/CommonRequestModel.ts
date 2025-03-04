@@ -6,4 +6,9 @@ export class CommonRequestModel {
 
     @IsNumber({}, { message: "Longitude must be a number" })
     longitude!: number;
+
+    constructor(latitude: number, longitude: number) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }

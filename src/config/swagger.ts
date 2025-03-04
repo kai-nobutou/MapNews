@@ -12,7 +12,7 @@ const swaggerSpec = routingControllersToSpec(
   storage,
   {
     routePrefix: process.env.API_PREFIX || "/api",
-    controllers: [__dirname + "/../controllers/*.ts"],  // コントローラーを明示的に指定
+    controllers: [__dirname + "/../controllers/*.ts"], 
   },
   {
     info: {
