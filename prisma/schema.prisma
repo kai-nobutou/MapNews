@@ -13,5 +13,6 @@ model Email {
   subject       String
   body          String
   disasterType  String   // 追加（"救急", "火災", など）
+  address       String   @default("住所不明") 
   receivedAt    DateTime @default(now())  // 受信日時
 }

@@ -15,6 +15,7 @@ async function main() {
                 subject: 'ふくしょうめーる',
                 body: '中央区　大手門２丁目２番付近に火災のため、消防隊が出動しています。',
                 disasterType: '火災',
+                address: '博多区那珂３丁目１７番',
                 receivedAt: new Date(),
             },
             {
@@ -22,6 +23,7 @@ async function main() {
                 subject: 'ふくしょうめーる',
                 body: '博多区　那珂３丁目１７番付近に救急のため、消防隊が出動しています',
                 disasterType: '救急',
+                address: '博多区那珂３丁目１７番',
                 receivedAt: new Date(),
             },
             {
@@ -29,8 +31,9 @@ async function main() {
                 subject: 'ふくしょうめーる',
                 body: '博多区　中洲４丁目７番付近に警戒のため、消防隊が出動しています。',
                 disasterType: '警戒',
+                address: '博多区中洲４丁目７番',
                 receivedAt: new Date(),
-            },
+            }
         ],
     });
 

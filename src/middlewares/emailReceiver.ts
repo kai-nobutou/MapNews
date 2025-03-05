@@ -80,19 +80,22 @@ async function fetchEmails() {
           console.log("📜 メール受信:", parsed.subject, parsed.from?.text);
 
           const disasterType = parseDisasterType(parsed.text || ""); // 災害の種別を抽出
+          const firstLine = parseFirstLine(parsed.text || ""); // 最初の一行目を抽出
+          const address = parseAddress(parsed.text || ""); // 住所を抽出
           
           // DBに保存
           await prisma.email.create({
             data: {
               from: parsed.from?.text || "unknown",
               subject: parsed.subject || "No Subject",
-              body: parsed.text || "",
+              body: firstLine, // 最初の一行目を保存
               disasterType, // 種別を保存
+              address, // 住所を保存
               receivedAt: new Date(), // 受信日時を記録
             },
           });
 
-          console.log(`✅ メールをDBに保存しました（種別: ${disasterType}）`);
+          console.log(`✅ メールをDBに保存しました（種別: ${disasterType}, 住所: ${address}）`);
         } catch (error) {
           console.error("❌ メール解析エラー:", error);
         }
@@ -118,4 +121,21 @@ function parseDisasterType(message: string): string {
   }
 
   return "不明"; // 該当しない場合
+}
+
+/**
+ * メール本文から最初の一行目を抽出する
+ */
+function parseFirstLine(message: string): string {
+  const lines = message.split("\n");
+  return lines[0].trim(); // 最初の一行目を返す
+}
+
+/**
+ * メール本文から住所を抽出する
+ */
+function parseAddress(message: string): string {
+  const addressPattern = /(\S+区\s+\S+\d+丁目\d+番付近)/;
+  const match = message.match(addressPattern);
+  return match ? match[0] : "住所不明"; // マッチした住所を返す
 }
