@@ -8,11 +8,21 @@ datasource db {
 }
 
 model Email {
-  id            Int      @id @default(autoincrement())
-  from          String
-  subject       String
-  body          String
-  disasterType  String   // 追加（"救急", "火災", など）
-  address       String   @default("住所不明") 
-  receivedAt    DateTime @default(now())  // 受信日時
+  id           Int      @id @default(autoincrement())
+  from         String
+  subject      String
+  body         String
+  disasterType String
+  receivedAt   DateTime @default(now())
+  address      String   @default("住所不明")
+}
+
+model Tweet {
+  id            String  @id @unique // ツイートID
+  text          String  // ツイートの本文
+  createdAt     DateTime @map("created_at") // ツイートの作成日時
+  authorId      String?   // ツイートの投稿者ID
+  authorName    String  // 投稿者のユーザー名
+  authorProfile String? // 投稿者のプロフィール画像URL
+  mediaUrl      String? // 画像や動画のURL（メディアなしの場合はnull）
 }

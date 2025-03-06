@@ -135,7 +135,7 @@ function parseFirstLine(message: string): string {
  * メール本文から住所を抽出する
  */
 function parseAddress(message: string): string {
-  const addressPattern = /(\S+区\s+\S+\d+丁目\d+番付近)/;
+  const addressPattern = /(\S+区\s+\S+?(\d+丁目(\d+番)?)?付近?)/;
   const match = message.match(addressPattern);
-  return match ? match[0] : "住所不明"; // マッチした住所を返す
+  return match ? match[0] : "住所不明";
 }

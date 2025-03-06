@@ -111,4 +111,7 @@ npm run dev
 ```
 
 
+## xのAPIリファレンス
+https://docs.x.com/x-api/posts/full-archive-search
+
 
