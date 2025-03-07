@@ -2,6 +2,7 @@ import Imap from "imap";
 import { simpleParser } from "mailparser";
 import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
+import { geocodeAddress } from "../middlewares/geocoding";
 
 dotenv.config();
 const prisma = new PrismaClient();
@@ -82,7 +83,7 @@ async function fetchEmails() {
           const disasterType = parseDisasterType(parsed.text || ""); // 災害の種別を抽出
           const firstLine = parseFirstLine(parsed.text || ""); // 最初の一行目を抽出
           const address = parseAddress(parsed.text || ""); // 住所を抽出
-          
+          const coordinates = await geocodeAddress(simplifyAddress(address));
           // DBに保存
           await prisma.email.create({
             data: {
@@ -91,7 +92,9 @@ async function fetchEmails() {
               body: firstLine, // 最初の一行目を保存
               disasterType, // 種別を保存
               address, // 住所を保存
-              receivedAt: new Date(), // 受信日時を記録
+              receivedAt: new Date(),// 受信日時を記録
+              latitude: coordinates?.latitude || null,
+              longitude: coordinates?.longitude || null,
             },
           });
 
@@ -138,4 +141,14 @@ function parseAddress(message: string): string {
   const addressPattern = /(\S+区\s+\S+?(\d+丁目(\d+番)?)?付近?)/;
   const match = message.match(addressPattern);
   return match ? match[0] : "住所不明";
+}
+
+/**
+ * 住所から緯度経度を取得できるように整形する
+ * @param address 
+ * @returns 
+ */
+function simplifyAddress(address: string): string {
+  const matched = address.match(/^.+\d+丁目/);
+  return matched ? matched[0] : address;
 }

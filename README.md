@@ -115,3 +115,11 @@ npm run dev
 https://docs.x.com/x-api/posts/full-archive-search
 
 
+## OpenStreetMap
+src/middlewares/geocoding.ts
+町目までしか検索できない。
+
+## google
+以下を設定
+GOOGLE_MAPS_API_KEY=
+

@@ -22,6 +22,14 @@ const env = cleanEnv(process.env, {
     DB_USER: str(),
     DB_PASS: str(),
     DB_NAME: str(),
+
+    GOOGLE_MAPS_API_KEY: str(),
+
+    TWITTER_API_KEY: str(),
+    TWITTER_API_SECRET_KEY: str(),
+    TWITTER_ACCESS_TOKEN: str(),
+    TWITTER_ACCESS_TOKEN_SECRET: str(),
+    
 });
 
 export default env;

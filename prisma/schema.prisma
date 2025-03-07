@@ -15,6 +15,8 @@ model Email {
   disasterType String
   receivedAt   DateTime @default(now())
   address      String   @default("住所不明")
+  latitude     Float? 
+  longitude    Float? 
 }
 
 model Tweet {

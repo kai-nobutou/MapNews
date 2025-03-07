@@ -1,5 +1,4 @@
 import { Service } from "typedi";
-import { PrismaClient } from "@prisma/client";
 import { prisma } from "../config/prisma";
 import { FireTruck } from "../models/FireTrucksModel";
 

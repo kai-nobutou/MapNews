@@ -1,10 +1,9 @@
 import { Service } from "typedi";
-import { PrismaClient } from "@prisma/client";
 import { readOnlyTwitterClient } from "../config/twitter"; 
-import { TweetResponse, GetTweetsQuery} from "../models/ TweetModel";
-import e from "express";
+import { TweetResponse } from "../models/ TweetModel";
+import { prisma } from "../config/prisma";
 
-const prisma = new PrismaClient();
+
 
 @Service()
 export class TwitterService {
@@ -13,10 +12,11 @@ export class TwitterService {
      * @param keywords 検索するキーワードの配列
      * @returns 保存されたツイートのリスト
      */
-    async fetchAndSaveTweets(keywords: string[]): Promise<TweetResponse[]> {
+    async fetchAndSaveTweets(keywords:string |string[]): Promise<TweetResponse[]> {
         try {
+        
             // AND検索（スペース区切り）に変換
-            const query = keywords.join(" ");
+            const query = Array.isArray(keywords) ? keywords.join(" ") : keywords;
 
             // 🔹 過去に取得したツイートの最新の createdAt を取得
             const lastTweet = await prisma.tweet.findFirst({
@@ -76,7 +76,16 @@ export class TwitterService {
                 })
             );
 
-            return savedTweets.filter(tweet => tweet !== null);
+            return savedTweets.filter(tweet => tweet !== null)
+            .map(tweet => ({
+                id: tweet!.id,
+                text: tweet!.text,
+                createdAt: tweet!.createdAt.toISOString(), // 明示的に文字列へ変換
+                authorId: tweet!.authorId || null,
+                authorName: tweet!.authorName || null,
+                authorProfile: tweet!.authorProfile || null,
+                mediaUrl: tweet!.mediaUrl || null
+            }));
         } catch (error) {
             console.error("❌ ツイート取得 & DB保存エラー:", error);
             throw new Error("ツイートの取得または保存に失敗しました");

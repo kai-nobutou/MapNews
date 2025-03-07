@@ -25,9 +25,19 @@ export class TwitterController {
     })
     async getTweets(@QueryParams() query: GetTweetsQuery): Promise<{ data: TweetResponse[] } | { error: string }> {
 
-        if (!query || !query.keywords || query.keywords.length === 0) {
-            console.warn("⚠️ クエリパラメータが undefined または空です！");
+        if (!query || !query.keywords) {
+            console.warn("⚠️ クエリパラメータが undefined です！");
             return { error: "クエリパラメータが必要です。" };
+        }
+    
+        // `keywords` が `string` の場合、配列に変換する
+        const keywords: string[] = Array.isArray(query.keywords)
+        ? query.keywords
+        : typeof query.keywords === "string"
+            ? query.keywords.split(",")
+            : [];
+            if (keywords.length === 0) {
+                return { error: "クエリパラメータが空です。" };
         }
 
         const tweets = await this.twitterService.fetchAndSaveTweets(query.keywords);

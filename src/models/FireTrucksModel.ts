@@ -6,6 +6,8 @@ export interface FireTruck {
     disasterType: string;
     address: string;
     receivedAt: Date;
+    latitude?: number | null;
+    longitude?: number | null;
 }
 
 export interface GetFireTrucksByTypeParams {
