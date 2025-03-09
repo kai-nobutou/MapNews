@@ -3,10 +3,11 @@ import express from "express";
 import { Container } from "typedi";
 import { useExpressServer, useContainer as routingUseContainer } from "routing-controllers";
 import { swaggerUi, swaggerSpec } from "./config/swagger";
-import dotenv from "dotenv";
 import { prisma } from "./config/prisma";
+import env from "./config/env";
+import { processGoutouNews, processJikoNews, processSatujinNews } from "./util/news-cron"; // ここで news-cron.ts から関数をインポート
 
-dotenv.config();
+
 const app = express();
 app.use(express.json());
 
@@ -15,7 +16,7 @@ routingUseContainer(Container);
 
 // TypeDIとrouting-controllersの連携
 useExpressServer(app, {
-    routePrefix: process.env.API_PREFIX || "/api",
+    routePrefix: env.API_PREFIX || "/api",
     controllers: [__dirname + "/controllers/*.ts"],
 });
 
@@ -28,4 +29,14 @@ app.get("/health", async (req, res) => {
   res.json({ status: "ok", serverTime: now });
 });
 
+// アプリケーションの起動時にニュースを処理
+processGoutouNews().catch(error => {
+  console.error("❌ 初回ニュースGoutou処理中にエラー発生:", error);
+});
+processJikoNews().catch(error => {
+  console.error("❌ 初回ニュースJiko処理中にエラー発生:", error);
+});
+processSatujinNews().catch(error => {
+  console.error("❌ 初回ニュースSatujin処理中にエラー発生:", error);
+});
 export default app;

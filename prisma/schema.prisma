@@ -28,3 +28,24 @@ model Tweet {
   authorProfile String? // 投稿者のプロフィール画像URL
   mediaUrl      String? // 画像や動画のURL（メディアなしの場合はnull）
 }
+
+model News {
+  id          Int     @id @default(autoincrement()) // 自動インクリメントのID
+  title       String  @db.Text
+  description String  @db.Text
+  content     String  @db.Text
+  url         String  @unique // ニュースのURL（重複防止）
+  image       String? // 記事の画像URL（任意）
+  publishedAt DateTime
+  createdAt   DateTime @default(now())
+
+  sourceName  String  // ニュースの発信元
+  sourceUrl   String  // 発信元のURL
+
+  latitude    String? // 緯度（null 許容）
+  longitude   String? // 経度（null 許容）
+  formattedAddress String? //住所取得
+
+  category    String  // ジャンル（殺人・窃盗・詐欺・事故・火災・その他）
+  summary     String  // キャッチコピーの要約
+}

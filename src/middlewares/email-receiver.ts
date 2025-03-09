@@ -1,20 +1,12 @@
 import Imap from "imap";
 import { simpleParser } from "mailparser";
-import { PrismaClient } from "@prisma/client";
-import dotenv from "dotenv";
-import { geocodeAddress } from "../middlewares/geocoding";
+import { geocodeAddress } from "./geocoding";
+import { prisma } from "../config/prisma";
+import IMAP_CONFIG from "../config/imap";
 
-dotenv.config();
-const prisma = new PrismaClient();
 
-const IMAP_CONFIG = {
-  user: process.env.IMAP_USER || "", // 空文字をデフォルト値として設定
-  password: process.env.IMAP_PASS || "",
-  host: process.env.IMAP_HOST || "",
-  port: Number(process.env.IMAP_PORT) || 993,
-  tls: true,
-  tlsOptions: { rejectUnauthorized: false }, // TLSの証明書検証を無効化 (開発時のみ)
-};
+
+
 
 const imap = new Imap(IMAP_CONFIG);
 

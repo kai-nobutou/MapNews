@@ -1,6 +1,6 @@
 import app from './app';
 import ENV from './config/env';
-import {startEmailListener} from "./middlewares/emailReceiver";
+import {startEmailListener} from "./middlewares/email-receiver";
 
 app.listen(ENV.PORT, () => {
   startEmailListener();
