@@ -1,31 +1,40 @@
 import { Service } from "typedi";
 import { readOnlyTwitterClient } from "../config/twitter"; 
-import { TweetResponse } from "../models/ TweetModel";
+import { TweetResponse } from "../models/TweetModel";
 import { prisma } from "../config/prisma";
-
-
 
 @Service()
 export class TwitterService {
     /**
      * キーワードを指定してツイートを取得し、DBに保存
-     * @param keywords 検索するキーワードの配列
+     * @param andGroups 検索するキーワードのANDグループ配列
      * @returns 保存されたツイートのリスト
      */
-    async fetchAndSaveTweets(keywords:string |string[]): Promise<TweetResponse[]> {
+    async fetchAndSaveTweets(andGroups: string[]): Promise<TweetResponse[]> {
         try {
-        
-            // AND検索（スペース区切り）に変換
-            const query = Array.isArray(keywords) ? keywords.join(" ") : keywords;
+            if (!andGroups || andGroups.length === 0) {
+                throw new Error("検索キーワードが指定されていません");
+            }
 
-            // 🔹 過去に取得したツイートの最新の createdAt を取得
-            const lastTweet = await prisma.tweet.findFirst({
-                where: { text: { contains: keywords[0] } }, // 最初のキーワードを含むツイート
-                orderBy: { createdAt: "desc" }, // 最新のツイート
+            // 🔹 各 ANDグループを `"火災" "西区"` のような完全一致検索にする
+            const queries = andGroups.map(group => {
+                return `(${group.split(",").map(word => `"${word}"`).join(" ")})`; 
             });
 
-            // 🔹 検索時に「since_id」を指定
+            // 🔹 OR で結合 → `("火災" "西区") OR ("火災" "内浜")`
+            const query = queries.join(" OR ");
+
+            console.log("🔎 検索クエリ:", query);
+
+            // 🔹 過去に取得したツイートの最新の `createdAt` を取得
+            const lastTweet = await prisma.tweet.findFirst({
+                where: { text: { contains: andGroups[0].split(",")[0] } }, // 最初のキーワードを含むツイート
+                orderBy: { createdAt: "desc" },
+            });
+
+            // 🔹 検索時のパラメータ
             const searchParams: any = {
+                query: query,
                 "tweet.fields": "created_at,public_metrics",
                 "media.fields": "url,preview_image_url",
                 "expansions": "attachments.media_keys,author_id",
@@ -33,11 +42,10 @@ export class TwitterService {
                 "max_results": 10,
             };
             if (lastTweet) {
-                searchParams.since_id = lastTweet.id; // 最新のツイートID以降のものだけ取得
+                searchParams.since_id = lastTweet.id; // 最新のツイートID以降を取得
             }
 
-            // Twitter API で新しいツイートを取得
-            console.log("検索キーワード:", keywords);
+            // 🔹 Twitter API で新しいツイートを取得
             const response = await readOnlyTwitterClient.v2.search(query, searchParams);
             console.log("APIレスポンス:", response);
             if (!response.data || !response.data.data) {
@@ -45,7 +53,7 @@ export class TwitterService {
                 return [];
             }
 
-            // 取得したツイートデータをDBに保存
+            // 🔹 取得したツイートをDBに保存
             const savedTweets = await Promise.all(
                 response.data.data.map(async (tweet) => {
                     if (!tweet.id || !tweet.text) {
@@ -80,7 +88,7 @@ export class TwitterService {
             .map(tweet => ({
                 id: tweet!.id,
                 text: tweet!.text,
-                createdAt: tweet!.createdAt.toISOString(), // 明示的に文字列へ変換
+                createdAt: tweet!.createdAt.toISOString(),
                 authorId: tweet!.authorId || null,
                 authorName: tweet!.authorName || null,
                 authorProfile: tweet!.authorProfile || null,

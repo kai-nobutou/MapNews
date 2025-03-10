@@ -16,12 +16,12 @@ export class NewsController {
     /**
      * ニュース記事のデータ情報の一覧を取得
      * @param - なし
-     * @returns {Promise<NewsResponse[]>} ニュース記事のデータ情報の一覧
+     * @returns {Promise<{data: NewsResponse[]}>} ニュース記事のデータ情報の一覧
      */
     @Get("/")
-    async getNews(): Promise<NewsResponse[]> {
+    async getNews(): Promise<{ data: NewsResponse[] }> {
         const news = await this.newsService.getNews();
-        return news;
+        return { data: news };
     }
 
         

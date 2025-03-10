@@ -9,7 +9,9 @@ import { processGoutouNews, processJikoNews, processSatujinNews } from "./util/n
 
 
 const app = express();
+const cors = require('cors');
 app.use(express.json());
+app.use(cors()); 
 
 // TypeDIとrouting-controllersの連携設定
 routingUseContainer(Container);
@@ -29,14 +31,14 @@ app.get("/health", async (req, res) => {
   res.json({ status: "ok", serverTime: now });
 });
 
-// アプリケーションの起動時にニュースを処理
-processGoutouNews().catch(error => {
-  console.error("❌ 初回ニュースGoutou処理中にエラー発生:", error);
-});
-processJikoNews().catch(error => {
-  console.error("❌ 初回ニュースJiko処理中にエラー発生:", error);
-});
-processSatujinNews().catch(error => {
-  console.error("❌ 初回ニュースSatujin処理中にエラー発生:", error);
-});
+// // アプリケーションの起動時にニュースを処理
+// processGoutouNews().catch(error => {
+//   console.error("❌ 初回ニュースGoutou処理中にエラー発生:", error);
+// });
+// processJikoNews().catch(error => {
+//   console.error("❌ 初回ニュースJiko処理中にエラー発生:", error);
+// });
+// processSatujinNews().catch(error => {
+//   console.error("❌ 初回ニュースSatujin処理中にエラー発生:", error);
+// });
 export default app;
