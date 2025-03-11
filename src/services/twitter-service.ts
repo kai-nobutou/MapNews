@@ -1,7 +1,6 @@
 import { Service } from "typedi";
 import { readOnlyTwitterClient } from "../config/twitter"; 
 import { TweetResponse, GetTweetsQuery } from "../models/TweetModel";
-import { prisma } from "../config/prisma";
 
 @Service()
 export class TwitterService {
