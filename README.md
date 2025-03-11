@@ -70,13 +70,14 @@ backend/.env.sampleを参照
 npm install prisma --save-dev
 npm install @prisma/client
 ```
-2. Prismaを初期化します。
+<!-- 2. Prismaを初期化します。
 ```bash
 npx prisma init
-```
+``` -->
 3. Prismaのマイグレーションを実行してデータベーススキーマを作成します。
 ```bash
-npx prisma migrate dev --name init
+
+npx prisma db push
 npx prisma generate
 ```
 4. DBデータの追加

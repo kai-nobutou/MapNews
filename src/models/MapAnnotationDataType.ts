@@ -12,7 +12,7 @@ export type MapAnnotationData = {
     area: string
     link: string
   }
-  markerImgUrl?: string // マーカーの画像
+  newsImage?: string // マーカーの画像
   publishedAt: Date // ニュースの公開日
   createdAt: Date // DBに登録された日時
 }

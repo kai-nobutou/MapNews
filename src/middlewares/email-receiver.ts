@@ -87,6 +87,7 @@ async function fetchEmails() {
               receivedAt: new Date(),// 受信日時を記録
               latitude: coordinates?.latitude || null,
               longitude: coordinates?.longitude || null,
+              createdAt: new Date(), // 作成日時を記録
             },
           });
 

@@ -2,7 +2,8 @@ import { JsonController, Get, QueryParams } from "routing-controllers";
 import { OpenAPI } from "routing-controllers-openapi";
 import { Service } from "typedi";
 import { FireTrucksService } from "../services/fire-trucks-service";
-import { GetFireTrucksByTypeParams, GetFireTrucksByPeriodParams, FireTrucksResponse } from "../models/FireTrucksModel";
+import { GetFireTrucksByTypeParams, GetFireTrucksByPeriodParams } from "../models/FireTrucksModel";
+import { MapAnnotationData } from "../models/CommonResponseModel";
 
 /**
  * @class FireTrucksController
@@ -22,7 +23,7 @@ export class FireTrucksController {
      * @method getFireTrucks
      * @summary 消防の位置情報を取得するAPI
      * @description 消防の位置情報を取得するAPI
-     * @returns {Promise<FireTrucksResponse>} 消防の位置情報
+     * @returns {Promise<MapAnnotationData[]>} 消防の位置情報
      */
     @Get("/missions")
     @OpenAPI({
@@ -34,9 +35,9 @@ export class FireTrucksController {
             },
         },
     })
-    async getFireTrucks(): Promise<FireTrucksResponse> {
+    async getFireTrucks(): Promise<MapAnnotationData[]> {
         const data = await this.fireTrucksService.getFireTrucks();
-        return { data };
+        return data;
     }
 
     /**
@@ -44,7 +45,7 @@ export class FireTrucksController {
      * @summary 種別を指定して消防の位置情報を取得するAPI
      * @description 種別を指定して消防の位置情報を取得するAPI
      * @param {GetFireTrucksByTypeParams} params - クエリパラメータ
-     * @returns {Promise<FireTrucksResponse>} 指定された種別の消防の位置情報
+     * @returns {Promise<MapAnnotationData[]>} 指定された種別の消防の位置情報
      */
     @Get("/missions/by-type")
     @OpenAPI({
@@ -59,9 +60,9 @@ export class FireTrucksController {
             },
         },
     })
-    async getFireTrucksByType(@QueryParams() params: GetFireTrucksByTypeParams): Promise<FireTrucksResponse> {
+    async getFireTrucksByType(@QueryParams() params: GetFireTrucksByTypeParams): Promise<MapAnnotationData[]> {
         const data = await this.fireTrucksService.getFireTrucksByType(params.type);
-        return { data };
+        return data;
     }
 
     /**
@@ -85,8 +86,8 @@ export class FireTrucksController {
             },
         },
     })
-    async getFireTrucksByPeriod(@QueryParams() params: GetFireTrucksByPeriodParams): Promise<FireTrucksResponse> {
+    async getFireTrucksByPeriod(@QueryParams() params: GetFireTrucksByPeriodParams): Promise<MapAnnotationData[]> {
         const data = await this.fireTrucksService.getFireTrucksByPeriod(new Date(params.start), new Date(params.end));
-        return { data };
+        return data;
     }
 }

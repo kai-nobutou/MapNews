@@ -17,6 +17,7 @@ model Email {
   address      String   @default("住所不明")
   latitude     Float? 
   longitude    Float? 
+  createdAt    DateTime @map("created_at")
 }
 
 model Tweet {

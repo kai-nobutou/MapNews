@@ -1,6 +1,8 @@
 import { Service } from "typedi";
 import { prisma } from "../config/prisma";
-import { FireTruck } from "../models/FireTrucksModel";
+import { MapAnnotationData } from "../models/CommonResponseModel";
+import { convertFireDataToMapAnnotationData } from "../util/convertToMapAnnotationData";
+
 
 /**
  * @class FireTrucksService
@@ -13,7 +15,7 @@ export class FireTrucksService {
      * @description 過去2時間以内に受信したメールを取得します。
      * @returns {Promise<Array>} 火災に関するメールの配列を返します。
      */
-    async getFireTrucks(): Promise<FireTruck[]> {
+    async getFireTrucks(): Promise<MapAnnotationData[]> {
         const oneHourAgo = new Date(Date.now() - 1 * 60 * 60 * 1000);
         const data = await prisma.email.findMany({
             where: {
@@ -22,7 +24,7 @@ export class FireTrucksService {
                 },
             },
         });
-        return data;
+        return data.map(convertFireDataToMapAnnotationData);
     }
 
     /**
@@ -31,13 +33,15 @@ export class FireTrucksService {
      * @param {string} type - 災害のタイプ
      * @returns {Promise<Array>} 指定された災害タイプに関するメールの配列を返します。
      */
-    async getFireTrucksByType(type: string): Promise<FireTruck[]> {
+    async getFireTrucksByType(type: string): Promise<MapAnnotationData[]> {
         const data = await prisma.email.findMany({
             where: {
                 disasterType: type,
             },
         });
-        return data;
+       
+            
+        return data.map(convertFireDataToMapAnnotationData);;
     }
 
     /**
@@ -47,7 +51,7 @@ export class FireTrucksService {
      * @param {Date} end - 期間の終了日時
      * @returns {Promise<Array>} 指定された期間内に受信したメールの配列を返します。
      */
-    async getFireTrucksByPeriod(start: Date, end: Date): Promise<FireTruck[]> {
+    async getFireTrucksByPeriod(start: Date, end: Date): Promise<MapAnnotationData[]> {
         const data = await prisma.email.findMany({
             where: {
                 receivedAt: {
@@ -56,6 +60,6 @@ export class FireTrucksService {
                 },
             },
         });
-        return data;
+        return data.map(convertFireDataToMapAnnotationData);;
     }
 }
