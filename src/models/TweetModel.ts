@@ -1,3 +1,6 @@
+/**
+ * Tweetを表す型
+ */
 export interface TweetResponse {
     id: string;
     text: string;
@@ -6,8 +9,12 @@ export interface TweetResponse {
     authorName?: string | null;
     authorProfile?: string | null;
     mediaUrl?: string | null;
+    tweetUrl?: string | null;
 }
 
-export class GetTweetsQuery {
-    andGroups!: string | string[];// 🔹 変更: AND検索のグループ
+/**
+ * Tweet取得クエリ
+ */
+export interface GetTweetsQuery {
+    groups?: string; // 🔹 "火災,西区|火災,博多区" の形式
 }

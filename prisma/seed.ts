@@ -100,6 +100,22 @@ async function main() {
                 formattedAddress: '福岡市東区香椎',
                 category: '警戒',
                 summary: '福岡市東区で不審火の警戒のため、消防隊が出動しています。'
+            },
+            {
+                title: 'アルサーガ',
+                description: 'アルサーガでハッカソン開催',
+                content: 'アルサーガでハッカソンが開催していますしています。',
+                url: 'https://www.arsaga.jp/',
+                image: 'https://example.com/images/warning1.jpg',
+                publishedAt: new Date(),
+                createdAt: new Date(),
+                sourceName: '男のハッカソン',
+                sourceUrl: 'https://example.com',
+                latitude: '33.5914255',
+                longitude: '130.4005981',
+                formattedAddress: '福岡市中央区天神１丁目１０−２０',
+                category: 'ハッカソン',
+                summary: 'アルサーガでハッカソン開催！'
             }
         ],
     });

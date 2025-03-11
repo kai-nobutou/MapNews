@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import { prisma } from "../config/prisma";
-import { MapAnnotationData } from "../models/CommonResponseModel";
+import { MapAnnotationData } from "../models/MapAnnotationDataModel";
 import { convertNewsToMapAnnotationData } from "../util/convertToMapAnnotationData";
 
 @Service()

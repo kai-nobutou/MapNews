@@ -1,3 +1,6 @@
+/**
+ * Newsを表す型
+ */
 export interface News {
     id: number;
     title: string;
@@ -10,7 +13,11 @@ export interface News {
     source:{name:string, url:string};
 }
 
-export interface NewsResponse{
+
+/**
+ * ニュースデータを保存する型
+ */
+export interface NewsResponse {
     title: string;
     description: string;
     content: string;
@@ -18,10 +25,13 @@ export interface NewsResponse{
     image: string;
     publishedAt: Date;
     createdAt: Date;
-    source:{name:string, url:string};
-    latitude:string;
-    longitude:string;
-    formattedAddress:string;
-    category:string;
-    summary:string;
+    source: {
+        name: string;
+        url: string;
+    };
+    latitude: string;
+    longitude: string;
+    formattedAddress: string;
+    category: string;
+    summary: string;
 }

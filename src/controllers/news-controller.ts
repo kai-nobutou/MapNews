@@ -1,9 +1,7 @@
 import { JsonController, Get, QueryParam } from "routing-controllers";
-import { OpenAPI } from "routing-controllers-openapi";
 import { NewsService } from "../services/news-service";
 import { Service } from "typedi";
-import { NewsResponse } from "../models/NewsModel";
-import { MapAnnotationData } from "../models/CommonResponseModel";
+import { MapAnnotationData } from "../models/MapAnnotationDataModel";
 
 @Service()
 @JsonController("/news")

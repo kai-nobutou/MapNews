@@ -1,4 +1,4 @@
-import { MapAnnotationData } from "../models/CommonResponseModel";
+import { MapAnnotationData } from "../models/MapAnnotationDataModel";
 
 /**
  * 🔄 消防関連データを `MapAnnotationData` に変換する
