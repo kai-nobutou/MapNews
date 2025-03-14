@@ -1,12 +1,16 @@
 import { JsonController, Get, QueryParam } from "routing-controllers";
 import { NewsService } from "../services/news-service";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { MapAnnotationData } from "../models/MapAnnotationDataModel";
 
-@Service()
+/**
+ * @class NewsController
+ * @description ニュース記事に関するAPIコントローラー
+ */
 @JsonController("/news")
+@Service()
 export class NewsController {
-    constructor(private newsService: NewsService) {}
+    constructor(@Inject() private newsService: NewsService) {}
 
     /**
      * ニュース記事のデータ情報の一覧を取得

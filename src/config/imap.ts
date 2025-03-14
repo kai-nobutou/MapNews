@@ -1,4 +1,4 @@
-import env from "./env";  // ✅ `env.ts` から環境変数を取得
+import env from "./env";  
 
 const IMAP_CONFIG = {
   user: env.IMAP_USER,

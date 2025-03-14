@@ -1,12 +1,16 @@
 import { JsonController, Get, QueryParams } from "routing-controllers";
 import { TwitterService } from "../services/twitter-service";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { TweetResponse, GetTweetsQuery } from "../models/TweetModel";
 
-@Service()
+/**
+ * @class TwitterController
+ * @description Twitterに関するAPIコントローラー
+ */
 @JsonController("/twitter")
+@Service()
 export class TwitterController {
-    constructor(private twitterService: TwitterService) {}
+    constructor(@Inject() private twitterService: TwitterService) {}
 
     @Get("/tweets")
     async getTweets(@QueryParams() query: GetTweetsQuery): Promise<{ data: TweetResponse[] } | { error: string }> {

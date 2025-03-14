@@ -1,5 +1,5 @@
 import { JsonController, Get, QueryParams } from "routing-controllers";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { FireTrucksService } from "../services/fire-trucks-service";
 import { GetFireTrucksByTypeParams, GetFireTrucksByPeriodParams } from "../models/FireTrucksModel";
 import { MapAnnotationData } from "../models/MapAnnotationDataModel";
@@ -8,15 +8,15 @@ import { MapAnnotationData } from "../models/MapAnnotationDataModel";
  * @class FireTrucksController
  * @description 消防車に関するAPIコントローラー
  */
-@Service()
 @JsonController("/fire-trucks")
+@Service()
 export class FireTrucksController {
 
     /**
      * @constructor
      * @param {FireTrucksService} fireTrucksService - 消防車サービス
      */
-    constructor(private fireTrucksService: FireTrucksService ) {}
+    constructor(@Inject() private fireTrucksService: FireTrucksService ) {}
 
     /**
      * @method getFireTrucks
