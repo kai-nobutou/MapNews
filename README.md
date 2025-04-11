@@ -12,7 +12,7 @@
   - postgres --version
     14.16
 
-## Dockerでの環境構築 20250321追記
+
 ### 開発環境
 
 ```bash
@@ -348,10 +348,3 @@ app.tsで以下の行をコメントアウトすることで、起動時のニ�
 - 環境変数の`DATABASE_URL`が正しく設定されているか確認してください。
 
 
-### デプロイコマンド
-```bash
-docker build -t live-map .  # 本番用イメージのビルド
-docker tag live-map  asia.gcr.io/live-map-454221/live-map
-docker push asia.gcr.io/live-map-454221/live-map # イメージのプッシュ
-gcloud run deploy live-map --image asia.gcr.io/live-map-454221/live-map --platform managed --region asia-northeast1
-```
